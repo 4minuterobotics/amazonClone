@@ -1,11 +1,22 @@
 import express from 'express';
-import data from './data.js';
+import * as dotenv from 'dotenv';
+import cors from 'cors';
 
+import homeScreenRoute from './homeScreenRoute.js';
+
+//initialize express application
 const app = express();
 
-//when users go to this address, we will return products to the front end.
-app.get('/api/products', (req, res) => {
-	res.send(data.products);
+//set up some middlewares
+app.use(cors()); //this will allow us to make cross origin requests and allow our server to be called from the fornt end
+
+// api endpoints that we can connect and hook onto from the font end side
+// ...... (get request route, action)
+app.use('/api/products', homeScreenRoute);
+
+//when users go to this address, we will return a message to the front end.
+app.get('/', (req, res) => {
+	res.send('Hello from Foo Amazon');
 });
 
 //the variable port is being set to process.env.PORT which is whatever port is free.
