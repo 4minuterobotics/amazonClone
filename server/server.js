@@ -20,10 +20,9 @@ app.get('/api/products/slug/:slug', (req, res) => {
 	console.log('made it to product screen route. attempting if statement...');
 	const product = data.products.find((x) => x.slug === req.params.slug);
 	console.log(req.params.slug);
-	console.log(req);
-	// console.log(req);
+	//console.log(req);
 	if (product) {
-		try {
+		try { 
 			console.log('generating response');
 			res.send(product);
 			console.log('data was sent to front end');
@@ -32,7 +31,8 @@ app.get('/api/products/slug/:slug', (req, res) => {
 			console.log(error);
 		}
 	} else {
-		res.status(404).send({ message: 'Product doesnt exist' });
+		console.log("product aint here")
+		 res.status(404).send({ message: 'Product doesnt exist' });
 	}
 });
 

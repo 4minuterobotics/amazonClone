@@ -8,6 +8,8 @@ import Badge from 'react-bootstrap/Badge';
 import Rating from '../components/Rating';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -52,29 +54,41 @@ const ProductScreen = () => {
 				});
 
 				//if there's a response back....
-				if (response.ok) {
+				if (response){
 					console.log('got something back from fetch');
 					const result = await response.json(); //save the response (our posts) as 'result'
 					console.log(`we got back the following: ${result}`);
+				
+
+				if (response.ok) {
 					dispatch({ type: 'FETCH_SUCCESS', payload: result });
 					console.log(result);
-					//setProducts(result);
 					console.log(product);
 				}
-			} catch (error) {
-				alert(error);
+				else if (!response.ok){
+					dispatch({ type: 'FETCH_FAIL', payload: result });
+					console.log('retrieved some bulljive from fetch response')
+					console.log(result)
+				}
+			} 
+			} catch (err) {
+				alert(err);
 				console.log('got nothing back from fetch');
-				console.log(error);
-				dispatch({ type: 'FETCH_FAIL', payload: error.message });
+				console.log(err);
 			}
+			
 		};
 		fetchData();
 	}, [slug]);
 
+	console.log(`loading? ${loading}`)
+	console.log(error)
+	console.log(product)
+
 	return loading ? (
-		<div>...Loading product screen</div>
+		<LoadingBox/>
 	) : error ? (
-		<div>{error}</div>
+		<MessageBox variant="danger">{error.message}</MessageBox>
 	) : (
 		<div>
 			<Row>
