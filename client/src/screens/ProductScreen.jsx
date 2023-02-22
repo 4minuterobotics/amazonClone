@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -29,6 +29,8 @@ const reducer = (state, action) => {
 };
 
 const ProductScreen = () => {
+	const navigate = useNavigate();
+
 	//the slug params aka link suffix gets saved as the variable params
 	const params = useParams();
 	// the slug paams used in the link gets saved into the slug variable, where it is used below that
@@ -167,6 +169,7 @@ const addToCartHandler = async () => {
 	ctxDispatch({type: 'CART_ADD_ITEM', payload: {...product, quantity}})
 	console.log(" adding the new product and its quantity value to the payload for usecontext")
 
+	navigate('/cart');
 }
 
 	return loading ? (
