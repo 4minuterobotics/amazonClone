@@ -8,10 +8,10 @@ import {StoreProvider} from './Store'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-	<StoreProvider>
-	<HelmetProvider>
-		<App />
-		</HelmetProvider>
+		<StoreProvider>
+			<HelmetProvider>
+				<App />
+			</HelmetProvider>
 		</StoreProvider>
 	</React.StrictMode>
 );

@@ -12,11 +12,14 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 
+//this reducer function moniters and changes the state/value for fetch requests
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'FETCH_REQUEST':
+			console.log("inside of reducer setting loading to be true")
 			return { ...state, loading: true };
 		case 'FETCH_SUCCESS':
+			console.log("updating product")
 			return { ...state, product: action.payload, loading: false };
 		case 'FETCH_FAIL':
 			return { ...state, loading: false, error: action.payload };
@@ -31,10 +34,18 @@ const ProductScreen = () => {
 	// the slug paams used in the link gets saved into the slug variable, where it is used below that
 	const { slug } = params;
 
+	///////////////long way
+	//const slug = params.slug
+	//const ect = params.ect
+
+	/////////////////short way
+	//const {slug,ect} = params
+
+
 	const [{ loading, error, product }, dispatch] = useReducer(reducer, {
 		loading: true,
-		error: '',
-		product: [],
+		error: null,
+		product: null,
 	});
 
 	//this state is the old way to save the products from the back end
@@ -47,10 +58,11 @@ const ProductScreen = () => {
 			console.log('dispatched first useReducer action');
 			console.log(slug);
 			try {
+				console.log("inside of try")
 				const response = await fetch(`http://localhost:5000/api/products/slug/${slug}`, {
 					method: 'GET',
 					headers: {
-						'Content-Type': 'appplication.json',
+						'Content-Type': 'appplication/json',
 					},
 				});
 
@@ -77,19 +89,84 @@ const ProductScreen = () => {
 				console.log('got nothing back from fetch');
 				console.log(err);
 			}
-			
+			console.log("sdfsadfasfsadfasdfasdf dsfsdf")
 		};
 		fetchData();
 	}, [slug]);
 
 	console.log(`loading? ${loading}`)
 	console.log(error)
-	console.log(product)
+	console.log(product) 
 
 
+//this is how you add the useContext value/state and functions to a page
 const {state, dispatch: ctxDispatch} = useContext(Store);	
-const addToCartHandler =()=>{
-	ctxDispatch({type: 'CART_ADD_ITEM', payload: {...product, quantity: 1}})
+const {cart} = state;
+
+//when the add to car button is clicked....
+const addToCartHandler = async () => {
+	//check to see if the item  already exists in the cart
+	const existItem = cart.cartItems.find((x) => x._id === product._id)
+	//if it exists, increase the quantity by 1, otherwise set the quantity to 1
+	const quantity = existItem ? existItem.quantity + 1 : 1;
+	console.log(" just stated add to cart handler")
+
+
+
+
+	//how video recommended getting shit from backend
+
+	// const {data} = await axios.get(`/api/products/${product._id}`)
+	// if (data.countInStock< quantity){
+	// 	window.alert('Sorry, Product is out of stock')
+	// 	return;
+	// } 
+
+
+
+
+	//send a request to the product API  
+	try {
+		const {response} = await fetch(`http://localhost:5000/api/products/${product._id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'appplication/json',
+			},
+		});
+
+		//if there's a response back....
+		if (response){
+			console.log('got something back from fetch');
+			const result = await response.json(); //save the response (our posts) as 'result'
+			console.log(`we got back the following: ${result}`);
+		
+		//make sure quantity being added to the cart is not less than what's in stock (countInStock)
+		if (response.ok) {
+			console.log(result);
+			if (result.countInStock< quantity){
+				window.alert('Sorry, Product is out of stock')
+				// return;
+			} 
+		}
+		else if (!response.ok){
+			console.log('retrieved some bulljive from fetch response')
+			console.log(result)
+		}
+	} 
+	} catch (err) {
+		alert(err);
+		console.log('got nothing back from fetch');
+		console.log(err);
+	}
+
+
+
+
+	//this reducer sets the payload (state object) equal to the data object that was fetched to this page (product). 
+	//It also adds the quantity key to the data with a value of 1 to the state object
+	ctxDispatch({type: 'CART_ADD_ITEM', payload: {...product, quantity}})
+	console.log(" adding the new product and its quantity value to the payload for usecontext")
+
 }
 
 	return loading ? (

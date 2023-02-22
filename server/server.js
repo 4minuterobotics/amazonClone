@@ -36,6 +36,28 @@ app.get('/api/products/slug/:slug', (req, res) => {
 	}
 });
 
+
+// dynamic api endpoint to retrieve data based on ending of dynamic url being an id number
+app.get('/api/products/:id', (req, res) => {
+	console.log('made it to product screen route. attempting if statement...');
+	const product = data.products.find((x) => x._id === req.params.id);
+	console.log(req.params.slug);
+	//console.log(req);
+	if (product) {
+		try { 
+			console.log('generating response');
+			res.send(product);
+			console.log('data was sent to front end');
+		} catch (error) {
+			console.log('on home screen route page finna log an error cuz it aint work');
+			console.log(error);
+		}
+	} else {
+		console.log("product aint here")
+		 res.status(404).send({ message: 'Product doesnt exist' });
+	}
+});
+
 //when users go to this address, we will return a message to the front end.
 app.get('/', (req, res) => {
 	res.send('Hello from Foo Amazon');
