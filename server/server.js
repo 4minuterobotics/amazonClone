@@ -25,7 +25,7 @@ app.get('/api/products/slug/:slug', (req, res) => {
 		try { 
 			console.log('generating response');
 			res.send(product);
-			console.log('data was sent to front end');
+			console.log('data was sent to front end using slug API');
 		} catch (error) {
 			console.log('on home screen route page finna log an error cuz it aint work');
 			console.log(error);
@@ -41,13 +41,14 @@ app.get('/api/products/slug/:slug', (req, res) => {
 app.get('/api/products/:id', (req, res) => {
 	console.log('made it to product screen route. attempting if statement...');
 	const product = data.products.find((x) => x._id === req.params.id);
-	console.log(req.params.slug);
+	console.log(req.params.id);
 	//console.log(req);
 	if (product) {
 		try { 
 			console.log('generating response');
 			res.send(product);
-			console.log('data was sent to front end');
+			console.log('data was sent to front end using id API. what was send was:');
+			console.log(product)
 		} catch (error) {
 			console.log('on home screen route page finna log an error cuz it aint work');
 			console.log(error);

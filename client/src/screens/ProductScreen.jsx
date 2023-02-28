@@ -64,7 +64,7 @@ const ProductScreen = () => {
 				const response = await fetch(`http://localhost:5000/api/products/slug/${slug}`, {
 					method: 'GET',
 					headers: {
-						'Content-Type': 'appplication/json',
+						'Content-Type': 'application/json',
 					},
 				});
 
@@ -129,28 +129,28 @@ const addToCartHandler = async () => {
 
 	//send a request to the product API  
 	try {
-		const {response} = await fetch(`http://localhost:5000/api/products/${product._id}`, {
+		const data = await fetch(`http://localhost:5000/api/products/${product._id}`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'appplication/json',
+				'Content-Type': 'application/json',
 			},
 		});
 
 		//if there's a response back....
-		if (response){
-			console.log('got something back from fetch');
-			const result = await response.json(); //save the response (our posts) as 'result'
+		if (data){
+			console.log('got something back from ProductScreen fetch');
+			const result = await data.json(); //save the response (our posts) as 'result'
 			console.log(`we got back the following: ${result}`);
 		
 		//make sure quantity being added to the cart is not less than what's in stock (countInStock)
-		if (response.ok) {
+		if (data.ok) {
 			console.log(result);
 			if (result.countInStock< quantity){
 				window.alert('Sorry, Product is out of stock')
 				// return;
 			} 
 		}
-		else if (!response.ok){
+		else if (!data.ok){
 			console.log('retrieved some bulljive from fetch response')
 			console.log(result)
 		}
