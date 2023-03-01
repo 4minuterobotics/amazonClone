@@ -3,6 +3,8 @@ import cors from 'cors';
 import data from './data.js';
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import productRouter from './routes/productRoutes.js';
+import seedRouter from './routes/seedRoutes.js';
 
 dotenv.config();//fetch variables in the .env file
 mongoose.connect(process.env.MONGODB_URI) // connect to the mongodb database
@@ -13,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI) // connect to the mongodb database
 	console.log(err.message)
 })
 
-import homeScreenRoute from './routes/homeScreenRoute.js';
+
 
 //initialize express application
 const app = express();
@@ -23,51 +25,11 @@ app.use(cors()); //this will allow us to make cross origin requests and allow ou
 
 // static api endpoints that we can connect and hook onto from the font end side
 // ...... (get request route, action)
-app.use('/api/products', homeScreenRoute);
+app.use('/api/products', productRouter);
 
-// dynamic api endpoint to retrieve data based on ending of dynamic url
-app.get('/api/products/slug/:slug', (req, res) => {
-	console.log('made it to product screen route. attempting if statement...');
-	const product = data.products.find((x) => x.slug === req.params.slug);
-	console.log(req.params.slug);
-	//console.log(req);
-	if (product) {
-		try { 
-			console.log('generating response');
-			res.send(product);
-			console.log('data was sent to front end using slug API');
-		} catch (error) {
-			console.log('on home screen route page finna log an error cuz it aint work');
-			console.log(error);
-		}
-	} else {
-		console.log("product aint here")
-		 res.status(404).send({ message: 'Product doesnt exist' });
-	}
-});
+app.use('/api/seed', seedRouter);
 
 
-// dynamic api endpoint to retrieve data based on ending of dynamic url being an id number
-app.get('/api/products/:id', (req, res) => {
-	console.log('made it to product screen route. attempting if statement...');
-	const product = data.products.find((x) => x._id === req.params.id);
-	console.log(req.params.id);
-	//console.log(req);
-	if (product) {
-		try { 
-			console.log('generating response');
-			res.send(product);
-			console.log('data was sent to front end using id API. what was send was:');
-			console.log(product)
-		} catch (error) {
-			console.log('on home screen route page finna log an error cuz it aint work');
-			console.log(error);
-		}
-	} else {
-		console.log("product aint here")
-		 res.status(404).send({ message: 'Product doesnt exist' });
-	}
-});
 
 //when users go to this address, we will return a message to the front end.
 app.get('/', (req, res) => {
