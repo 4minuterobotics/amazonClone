@@ -1,7 +1,17 @@
 import express from 'express';
-import * as dotenv from 'dotenv';
 import cors from 'cors';
 import data from './data.js';
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+
+dotenv.config();//fetch variables in the .env file
+mongoose.connect(process.env.MONGODB_URI) // connect to the mongodb database
+.then(()=>{
+	console.log('connected to db');
+})
+.catch ((err) =>{
+	console.log(err.message)
+})
 
 import homeScreenRoute from './routes/homeScreenRoute.js';
 
