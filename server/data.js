@@ -1,6 +1,23 @@
 //this file will hold an object to return products
+import bcrypt from 'bcryptjs'
+
 const data = {
-	products: [
+	users:[
+		{
+			name: 'Will',
+			email: 'admin@example.com',
+			password: bcrypt.hashSync('123456'),
+			isAdmin: true,
+		},
+		{
+			name: 'John',
+			email: 'user@example.com',
+			password: bcrypt.hashSync('123456'),
+			isAdmin: false,
+		},
+	],
+
+	products: [   
 		{
 			//_id: '1',
 			name: 'Nike Slim Shirt',
