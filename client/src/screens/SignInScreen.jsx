@@ -1,28 +1,80 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
+import { Store } from '../Store';
+import { toast } from 'react-toastify';
 
 
 const SignInScreen = () => {
+    const navigate=useNavigate();
     const {search} = useLocation();
     const redirectInUrl = new URLSearchParams(search).get('redirect')
     const redirect = redirectInUrl ? redirectInUrl : '/'
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+
+    const {state, dispatch: ctxDispatch} = useContext(Store)
+    const {userInfo} = state;
+
+    const submitHandler = async(e) => {
+        e.preventDefault();
+        try{
+            const response = await fetch("http://localhost:5000/api/users/signin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            })
+            if (response.ok){
+            const data = await response.json(); //this means we got the response successfuly
+            console.log("The response received by handle submit was ...");
+            console.log(data);
+            
+            ctxDispatch({type: 'USER_SIGNIN', payload: data})
+            localStorage.setItem('userInfo', JSON.stringify(data))
+            navigate(redirect || '/')
+            } else {
+                const {message} = await response.json();
+                //alert('Invalid email or password')
+                toast.error(message)
+                console.log(message)
+            }
+        } catch(err){
+            console.log("the error was")
+            console.log(err)
+        }
+    }
+
+    //this useEffect will prevent me from seeing the sign in page if i'm aleady logged in
+    useEffect(() => {
+      if(userInfo){
+        navigate(redirect)
+      }
+    }, [navigate, redirect, userInfo]);
+    
+    
+
   return (
    <Container className = "small-container">
         <Helmet>
             <title>Sign In</title></Helmet>
         <h1 className="my-3">Sign In</h1>
-        <Form>
+        <Form onSubmit={submitHandler}>
             <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" required/>
+                <Form.Control type="email" required     onChange={(e) => setEmail(e.target.value)}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" required/>
+                <Form.Control type="password" required  onChange={(e) => setPassword(e.target.value)}/>
             </Form.Group>
             <div className="mb-3">
                 <Button type="submit">Sign In</Button>

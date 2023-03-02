@@ -66,8 +66,10 @@ const productRouter = express.Router();
 
 //	SHORT WAY TO GET ALL POSTS FROM back end using mongoDB database
 productRouter.get('/', async (req, res) => {
+	console.log ("sending shit to home page")
 	const products = await Product.find();
 	res.send(products);
+	console.log (products)
 });
 
 // dynamic api endpoint to retrieve data based on ending of dynamic url

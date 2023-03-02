@@ -2,6 +2,7 @@ import express from 'express';
 import data from './data.js';
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import cors from 'cors';
 import productRouter from './routes/productRoutes.js';
 import seedRouter from './routes/seedRoutes.js';
 import userRouter from './routes/userRoutes.js';
@@ -20,6 +21,8 @@ mongoose.connect(process.env.MONGODB_URI) // connect to the mongodb database
 //initialize express application
 const app = express();
 
+app.use(cors()); //this will allow us to make cross origin requests and allow our server to be called from the fornt end
+
 //set up some middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -31,7 +34,9 @@ app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 
-
+app.use((err, req, res, next) =>{
+	res.status(500).send({message: err.message});
+})
 
 
 
@@ -42,9 +47,7 @@ app.get('/', (req, res) => {
 
 
 
-app.use((err, req, res, next) =>{
-	res.status(500).send({message: err.message});
-})
+
 
 
 

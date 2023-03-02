@@ -11,6 +11,7 @@ userRouter.post('/signin',expressAsyncHandler(async(req,res) =>{
     const user = await User.findOne({email: req.body.email});
     if(user){
         if(bcrypt.compareSync(req.body.password, user.password)){
+            console.log('login data passed to backend successully')
             res.send({
                 _id: user._id,
                 name: user.name,
