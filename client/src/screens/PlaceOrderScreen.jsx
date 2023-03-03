@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
@@ -8,9 +8,29 @@ import ListGroup from 'react-bootstrap/esm/ListGroup'
 import { Store } from '../Store'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import LoadingBox from '../components/LoadingBox'
+
+const reducer = (state, action) => {
+    switch(action.type){
+        case 'CREATE_REQUEST':
+            return{...state, loading: true}
+        case 'CREATE_SUCCESS':
+            return{...state, loading: false}
+        case 'CREATE_FAIL':
+            return{...state, loading: false}
+        default: 
+            return state;
+    }
+}
 
 const PlaceOrderScreen = () => {
+
     const navigate= useNavigate();
+
+    const [{loading}, dispatch] = useReducer(reducer,{
+        loading: false,
+    })
 
     const {state, dispatch: ctxDispatch} = useContext (Store);
     const {cart, userInfo} = state;
@@ -21,7 +41,49 @@ const PlaceOrderScreen = () => {
     cart.taxPrice = round2(0.15 * cart.itemsPrice);
     cart.totalPrice= cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
     const placeOrderHandler = async() => {
-         
+        try{
+            dispatch({type: 'CREATE_REQUEST'})
+            const response = await fetch("http://localhost:5000/api/order", {
+            method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'authorization': `Bearer ${userInfo.token}`
+                    },
+                    body: JSON.stringify({
+                        orderItems: cart.cartItems,
+                        shippingAddress: cart.shippingAddress,
+                        paymentMethod: cart.paymentMethod,
+                        itemsPrice: cart.itemsPrice,
+                        shippingPrice: cart.shippingPrice,
+                        taxPrice: cart.taxPrice,
+                        totalPrice: cart.totalPrice
+                    }),
+                })
+                if (response.ok){
+                const data = await response.json(); //this means we got the response successfuly
+                console.log("The response received by handle submit was ...");
+                console.log(data);
+                ctxDispatch({type: 'CART_CLEAR'});
+                dispatch({type: 'CREATE_SUCCESS'});
+                
+                //ctxDispatch({type: 'USER_SIGNIN', payload: data})
+                localStorage.removeItem('cartItems')
+                navigate(`/order/${data.order._id}`)
+                } else {
+                    const result = await response.json();
+                    //alert('Invalid email or password')
+                    console.log(result)
+                    toast.error(result)
+                    console.log(result.message)
+                    dispatch({type: 'CREATE_FAIL'})
+                }
+    
+        }catch(err){
+            dispatch({type: 'CREATE_FAIL'})
+            //toast.error(getError(err))
+            toast.error('Request failed')
+            console.log(err)
+        }
     }
 
     useEffect(() => {
@@ -120,6 +182,7 @@ const PlaceOrderScreen = () => {
                                             Place Order
                                         </Button>
                                 </div>
+                                {loading && <LoadingBox></LoadingBox>}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>
