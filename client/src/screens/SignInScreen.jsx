@@ -42,10 +42,11 @@ const SignInScreen = () => {
             localStorage.setItem('userInfo', JSON.stringify(data))
             navigate(redirect || '/')
             } else {
-                const {message} = await response.json();
+                const result = await response.json();
                 //alert('Invalid email or password')
-                toast.error(message)
-                console.log(message)
+                toast.error(result.message)
+                console.log(result)
+                console.log(result.message)
             }
         } catch(err){
             console.log("the error was")
