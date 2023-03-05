@@ -43,7 +43,7 @@ const PlaceOrderScreen = () => {
     const placeOrderHandler = async() => {
         try{
             dispatch({type: 'CREATE_REQUEST'})
-            const response = await fetch("http://localhost:5000/api/order", {
+            const response = await fetch("http://localhost:5000/api/orders", {
             method: "POST",
                     headers: {
                         "Content-Type": "application/json",
