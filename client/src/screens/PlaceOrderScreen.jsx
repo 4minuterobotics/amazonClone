@@ -25,7 +25,7 @@ const reducer = (state, action) => {
 }
 
 const PlaceOrderScreen = () => {
-
+    console.log('Place Oder Screen starts here')
     const navigate= useNavigate();
 
     const [{loading}, dispatch] = useReducer(reducer,{
@@ -66,7 +66,6 @@ const PlaceOrderScreen = () => {
                 ctxDispatch({type: 'CART_CLEAR'});
                 dispatch({type: 'CREATE_SUCCESS'});
                 
-                //ctxDispatch({type: 'USER_SIGNIN', payload: data})
                 localStorage.removeItem('cartItems')
                 navigate(`/order/${data.order._id}`)
                 } else {

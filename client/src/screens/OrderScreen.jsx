@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react'
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
@@ -9,6 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import { Store } from '../Store';
+import {toast} from 'react-toastify'
+
+let data ='' //i had to make this global for it to be used below
 
 function reducer(state, action) {
     switch (action.type) {
@@ -18,28 +22,124 @@ function reducer(state, action) {
             return { ...state, loading: false, order: action.payload, error: ''}
         case 'FETCH_FAIL':
             return { ...state, loading: false, error: action.payload}
+        case 'PAY_REQUEST':
+            return { ...state, loadingPay: true,};
+        case 'PAY_SUCCESS':
+            return { ...state, loadingPay: false, successPay: true}
+        case 'PAY_FAIL':
+            return { ...state, loadingPay: false}
+        case 'PAY_RESET':
+            return { ...state, loadingPay: false, successPay: false}
 
     default: 
         return state;
     }   
 }
 
-const OrderScreen = () => {
-    const {state} = useContext(Store)
-    const { userInfo } = state;
 
-    const params = useParams();
-    const { id: orderId} = params;
+const OrderScreen = () => {
+    console.log('Order Screen page starts here')
+
+    const {state} = useContext(Store) //add the global store state context to this page
+    const { userInfo } = state; // create an object of the user's info
+    console.log(userInfo);
+
+    const params = useParams(); // params is an object
+    console.log(params); //this logs as -->  id: as;lkj45p98oflhr98
+    const { id: orderId} = params; //if params is being deconstructed, 
+    //console.log (id)
+
 
     const navigate = useNavigate();
 
-    const[{ loading, error, order}, dispatch] = useReducer(reducer,{
+    const[{ loading, error, order, successPay, loadingPay}, dispatch] = useReducer(reducer,{
         loading: true,
         order: {},
         error: '',
+        successPay: false,
+        loadingPay: false,
     });
 
+    const [{isPending}, paypalDispatch] = usePayPalScriptReducer(); // this returns the state of the loading script and a function to load the script.
 
+    //-First action (create the order) after one of the paypal buttons is pressed.
+    //... This function passes data and actions as arguments needed for the popup that 
+    //... comes after the PayPal button is pressed
+    function createOrder(data, actions){
+        console.log('createOrder function began')
+        return actions.order
+        .create ({ //create an actions.order object
+            purchase_units: [
+                {
+                    amount: {value: order.totalPrice}, //pass the amount based on the order.totalPrice
+                },
+            ],
+        })
+        .then ((orderId) => { // might need to lowecase the D in ID ////////////////////////////////////////////////
+            return orderId;
+        })
+    }
+
+    //-2nd action (approve the order) after clicking pay on the 'complete purchase' popup. 
+    //... What happens is first all the order details is captured and sent to paypal.
+    //... Next paypal approves or disapproves the transaction
+    function onApprove (data, actions) {
+        console.log('onApprove function began')
+        console.log(order)
+        return actions.order.capture().then(async function (details){
+            try {
+				console.log("inside of onApprove try")
+                dispatch({type: 'PAY_REQUEST'});
+				const response = await fetch(`http://localhost:5000/api/orders/${order._id}/pay`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+                        'authorization': `Bearer ${userInfo.token}`,
+					},
+                    body: JSON.stringify({
+                        details
+                    }),
+				});
+
+				//if there's a response back....
+				if (response){
+					console.log('got something back from fetch');
+					const data = await response.json(); //save the response as 'result'
+					console.log(`we got back the following: ${data}`);
+				
+
+                    if (response.ok) {
+                        dispatch({ type: 'PAY_SUCCESS', payload: data });
+                        console.log('payment was successful')
+                        console.log(data);
+                        //navigate(`/order/${data.order._id}`)
+                        toast.success('Order is paid')
+                        console.log(data.order._id)
+                        
+
+                    }
+                    else if (!response.ok){
+                        dispatch({ type: 'PAY_FAIL', payload: data.message });
+                        console.log('retrieved some bulljive from fetch response')
+                        console.log(data)
+                        toast.error(data.message)
+                    }
+			    } 
+			} catch (err) {
+                dispatch({ type: 'PAY_FAIL', payload: err});
+				alert(err);
+				console.log('got no response back from fetch');
+				console.log(err);
+                toast.error('got no response back from order payment approval')
+			}
+        })
+    }    
+        
+        function onError (err) {
+            console.log('error jo');
+            toast.error('error jo');
+        }
+     
     useEffect(() => {
         const fetchOrder = async () =>{
             try {
@@ -78,12 +178,64 @@ const OrderScreen = () => {
 			}
         }
         if (!userInfo) { // if it's null
-            return navigate('/signin')
+            return navigate('/signin')////////////////////////////////////////////
         }
-        if (!order._id || (order._id && order._id !== orderId)){
+        if (!order._id || successPay || (order._id && order._id !== orderId)){
             fetchOrder();
+            if (successPay){
+                dispatch ({ type: 'PAY_RESET'});
+            }
+        } else{
+
+            const loadPaypalScript = async() => {
+                /////////////////////
+                try {
+                    console.log("loading paypal script fetch")
+                    const response = await fetch('http://localhost:5000/api/keys/paypal', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': `Bearer ${userInfo.token}`,
+                        },
+                    });
+    
+                    //if there's a response back....
+                    if (response){
+                        console.log(response)
+                        console.log('got something back from paypal script fetch');
+                        data = await response.text(); //save the response  as 'data'
+                        console.log(`we got back the following: ${data}`);
+                        console.log(data)
+                    
+    
+                        if (response.ok) {
+                            console.log(data);
+                        }
+                        else if (!response.ok){
+                            console.log('retrieved some bulljive from fetch response')
+                            console.log(data)
+                        }
+                    } 
+                } catch (err) {
+                    alert(err);
+                    console.log('got no response back from fetch');
+                    console.log(err);
+                }
+                /////////////////////
+
+
+                paypalDispatch({
+                    type: 'resetOptions',
+                    value:{
+                        'client-id': data,
+                        currency: 'USD',
+                    },
+                })
+                paypalDispatch ({ type: 'setLoadingStatus', value: 'pending'})
+            }
+            loadPaypalScript()
         }
-    }, [order, userInfo, orderId, navigate]);
+    }, [order, userInfo, orderId, navigate, paypalDispatch, successPay]);
 
   return (
     loading ? (
@@ -121,7 +273,7 @@ const OrderScreen = () => {
                             <Card.Title>Payment</Card.Title>
                             <Card.Text>
                                 <strong>Method: </strong>{order.paymentMethod} 
-                            </Card.Text>
+                            </Card.Text>{console.log(order)}
                             {order.isPaid ? (
                                 <MessageBox variant = "success">
                                     Paid at {order.paidAt}
@@ -186,6 +338,22 @@ const OrderScreen = () => {
                                         <Col><strong>${order.totalPrice.toFixed(2)}</strong></Col>
                                     </Row>
                                 </ListGroup.Item>
+                                {!order.isPaid && (
+                                    <ListGroup.Item>
+                                        {isPending ? (
+                                            <LoadingBox/>
+                                        ) : (
+                                            <div>
+                                                <PayPalButtons
+                                                    createOrder = {createOrder} 
+                                                    onApprove = {onApprove} 
+                                                    onError = {onError} 
+                                                ></PayPalButtons>
+                                            </div>                    
+                                        )}
+                                        {loadingPay && <LoadingBox/>}
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card.Body>
                     </Card>

@@ -7,6 +7,8 @@ import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 
 const ShippingAddressScreen = () => {
+
+    console.log('shipping address sreen starts here')
     const navigate = useNavigate();
 
     const {state, dispatch: ctxDispatch} = useContext(Store);

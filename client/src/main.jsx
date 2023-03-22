@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {PayPalScriptProvider} from '@paypal/react-paypal-js'
 import {HelmetProvider} from 'react-helmet-async'
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,9 +10,11 @@ import {StoreProvider} from './Store'
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<StoreProvider>
-			<HelmetProvider>
-				<App />
-			</HelmetProvider>
+		<HelmetProvider>
+		<PayPalScriptProvider deferLoading={true}> {/*derfer loading is set to true cuz i'm not loaind paypal at the beginnig of loading the app. */}
+			<App />
+		</PayPalScriptProvider>
+		</HelmetProvider>
 		</StoreProvider>
 	</React.StrictMode>
 );

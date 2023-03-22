@@ -28,6 +28,10 @@ app.use(cors()); //this will allow us to make cross origin requests and allow ou
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
  
+app.get('/api/keys/paypal', (req, res) =>{
+	console.log (typeof process.env.PAYPAL_CLIENT_ID)
+	res.send(process.env.PAYPAL_CLIENT_ID || 'sb') // sb is short for sandbox
+})
 
 // static api endpoints that we can connect and hook onto from the font end side
 // ...... (get request route, action)

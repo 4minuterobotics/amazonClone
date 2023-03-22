@@ -7,6 +7,8 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import { Store } from '../Store'
 
 const PaymentMethodScreen = () => {
+    console.log('Payment method screen starts here')
+
     const navigate = useNavigate();
     const {state, dispatch: ctxDispatch} = useContext(Store);
     const {

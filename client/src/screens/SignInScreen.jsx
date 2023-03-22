@@ -8,7 +8,9 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 
 
-const SignInScreen = () => {
+const SignInScreen = () => {    
+    console.log('signin screen starts here')
+
     const navigate=useNavigate();
     const {search} = useLocation();
     const redirectInUrl = new URLSearchParams(search).get('redirect')
