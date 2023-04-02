@@ -19,6 +19,7 @@ import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import ProfileScreen from './components/ProfileScreen';
 
 const App = () => {
 	const {state, dispatch: ctxDispatch} = useContext(Store);	
@@ -29,6 +30,7 @@ const App = () => {
 		localStorage.removeItem('userInfo')
 		localStorage.removeItem('shippingAddress')
 		localStorage.removeItem('paymentMethod')
+		window.location.href = '/signin';
 	}
 
 	return (
@@ -36,13 +38,15 @@ const App = () => {
 			<div className='d-flex flex-column site-container'>
 				<ToastContainer position ="bottom-center" limit={1}/>
 				<header>
-					<Navbar bg='dark' variant='dark'>
+					<Navbar bg='dark' variant='dark' expand="lg">
 						{/* container is the bootstrap styled component to make stuff appear on 1 line. */}
 						<Container>
 						<LinkContainer to='/'>
 								<Navbar.Brand>Foo Amazon Clone</Navbar.Brand>
 							</LinkContainer>
-						<Nav className ="me-auto">
+							<Navbar.Toggle aria-controls="basic-navbar-nav" />
+							<Navbar.Collapse id="basic-navbar-nav">
+						<Nav className ="me-auto w-100 justify-content-end">
 							<Link to = "/cart" className="nav-link">
 								Cart	
 								{cart.cartItems.length >0 && (
@@ -73,7 +77,8 @@ const App = () => {
 								Sign In
 								</Link>
 							)}
-						</Nav>							
+						</Nav>		
+						</Navbar.Collapse>			
 						</Container>
 					</Navbar>
 					{/* <Link to='/'>Amazon Clone</Link> */}
@@ -85,6 +90,7 @@ const App = () => {
 							<Route path='/cart' element={<CartScreen />} />
 							<Route path='/signin' element={<SignInScreen />} />
 							<Route path='/signup' element={<SignUpScreen />} />
+							<Route path='/profile' element={<ProfileScreen />} />
 							<Route path='/shipping' element={<ShippingAddressScreen />} />
 							<Route path='/payment' element={<PaymentMethodScreen />} />
 							<Route path='/placeorder' element={<PlaceOrderScreen />} />
