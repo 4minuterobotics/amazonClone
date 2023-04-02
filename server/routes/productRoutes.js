@@ -1,4 +1,5 @@
 import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
 import * as dotenv from 'dotenv';
 import data from '../data.js';
 import Product from '../models/productModel.js';
@@ -71,6 +72,17 @@ productRouter.get('/', async (req, res) => {
 	res.send(products);
 	console.log (products)
 });
+
+
+// api endpoint to retrieve data based on product category
+productRouter.get(
+	'/categories',
+	expressAsyncHandler(async (req, res) => {
+	  const categories = await Product.find().distinct('category');
+	  res.send(categories);
+	})
+  );
+
 
 // dynamic api endpoint to retrieve data based on ending of dynamic url
 productRouter.get('/slug/:slug', async  (req, res) => {
