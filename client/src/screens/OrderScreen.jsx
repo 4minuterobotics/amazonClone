@@ -40,7 +40,7 @@ function reducer(state, action) {
 const OrderScreen = () => {
     console.log('Order Screen page starts here')
 
-    const {state} = useContext(Store) //add the global store state context to this page
+    const {state, dispatch: ctxDispatch} = useContext (Store); //add the global store state context to this page
     const { userInfo } = state; // create an object of the user's info
     console.log(userInfo);
 
@@ -90,6 +90,8 @@ const OrderScreen = () => {
             try {
 				console.log("inside of onApprove try")
                 dispatch({type: 'PAY_REQUEST'});
+
+                // http://localhost:5000/api/orders/${order._id}/pay for local server
 				const response = await fetch(`http://localhost:5000/api/orders/${order._id}/pay`, {
 					method: 'PUT',
 					headers: {
@@ -110,6 +112,8 @@ const OrderScreen = () => {
 
                     if (response.ok) {
                         dispatch({ type: 'PAY_SUCCESS', payload: data });
+                        ctxDispatch({type: 'CART_CLEAR'});
+                        localStorage.removeItem('cartItems')
                         console.log('payment was successful')
                         console.log(data);
                         //navigate(`/order/${data.order._id}`)
@@ -145,6 +149,8 @@ const OrderScreen = () => {
             try {
 				console.log("inside of order screen try")
                 dispatch({type: 'FETCH_REQUEST'});
+
+                // http://localhost:5000/api/orders/${orderId} for local server
 				const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
 					method: 'GET',
 					headers: {
@@ -191,6 +197,8 @@ const OrderScreen = () => {
                 /////////////////////
                 try {
                     console.log("loading paypal script fetch")
+
+                    // http://localhost:5000/api/keys/paypal for local server
                     const response = await fetch('http://localhost:5000/api/keys/paypal', {
                         method: 'GET',
                         headers: {

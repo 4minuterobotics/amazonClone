@@ -40,6 +40,8 @@ const HomeScreen = () => {
 			console.log('dispatched first useReducer action');
 			try {
 				console.log("fetching shit for home page")
+
+				// http://localhost:5000/api/products for local server
 				const response = await fetch('http://localhost:5000/api/products', {
 					method: 'GET',
 					headers: {

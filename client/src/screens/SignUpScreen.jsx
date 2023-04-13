@@ -29,6 +29,8 @@ const SignUpScreen = () => {
             return;
         }
         try{
+
+            // http://localhost:5000/api/users/signup for local server
             const response = await fetch("http://localhost:5000/api/users/signup", {
                 method: "POST",
                 headers: {

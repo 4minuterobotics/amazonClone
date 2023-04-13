@@ -20,6 +20,7 @@ const CartScreen = () => {
 const updateCartHandler = async (item, quantity) => {
     try {
         console.log("pressing + 1 button")
+        // http://localhost:5000/api/products/${item._id} for local server
         const data = await fetch(`http://localhost:5000/api/products/${item._id}`, {
             method: 'GET',
             headers: {

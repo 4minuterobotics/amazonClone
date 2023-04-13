@@ -45,6 +45,8 @@ const App = () => {
 			// setCategories(data);
 
 			console.log("fetching categories")
+
+				// http://localhost:5000/api/products/categories for local server
 				const response = await fetch('http://localhost:5000/api/products/categories', {
 					method: 'GET',
 					headers: {

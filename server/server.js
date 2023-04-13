@@ -1,5 +1,5 @@
 import express from 'express';
-import data from './data.js';
+import path from 'path';
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import cors from 'cors';
@@ -39,6 +39,12 @@ app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
+
+// const __dirname = path.resolve();//this gets the directory name from path.resolve. it returns the current directory. 
+// app.use(express.static(path.join(__dirname, '/client/build'))) // this serves all files inside the frontend/build folder as a static file
+// app.get('*', (req, res) =>
+// 	res.sendFile(path.join(__dirname, '/client/build/index.html'))
+// ); // everything the user enters after the server name is gonna be served by this html file
 
 app.use((err, req, res, next) =>{
 	res.status(500).send({message: err.message});

@@ -43,6 +43,8 @@ const PlaceOrderScreen = () => {
     const placeOrderHandler = async() => {
         try{
             dispatch({type: 'CREATE_REQUEST'})
+
+            // http://localhost:5000/api/orders for local server
             const response = await fetch("http://localhost:5000/api/orders", {
             method: "POST",
                     headers: {
@@ -63,10 +65,10 @@ const PlaceOrderScreen = () => {
                 const data = await response.json(); //this means we got the response successfuly
                 console.log("The response received by handle submit was ...");
                 console.log(data);
-                ctxDispatch({type: 'CART_CLEAR'});
+                // ctxDispatch({type: 'CART_CLEAR'});
                 dispatch({type: 'CREATE_SUCCESS'});
                 
-                localStorage.removeItem('cartItems')
+                // localStorage.removeItem('cartItems')
                 navigate(`/order/${data.order._id}`)
                 } else {
                     const result = await response.json();

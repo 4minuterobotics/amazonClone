@@ -78,7 +78,7 @@ productRouter.get('/', async (req, res) => {
 productRouter.get(
 	'/categories',
 	expressAsyncHandler(async (req, res) => {
-	  const categories = await Product.find().distinct('category');
+	  const categories = await Product.find().distinct('category'); //this line finds all the categories and used the distinct function to return unique categories, not duplicates
 	  res.send(categories);
 	})
   );

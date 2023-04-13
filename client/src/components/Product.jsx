@@ -22,6 +22,8 @@ function Product(props) {
 		
 		try {
 			console.log("pressing Add to cart button")
+
+			// http://localhost:5000/api/products/${item._id} for local server
 			const data = await fetch(`http://localhost:5000/api/products/${item._id}`, {
 				method: 'GET',
 				headers: {

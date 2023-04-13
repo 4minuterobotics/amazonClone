@@ -40,6 +40,8 @@ const ProfileScreen = () => {
         }
         try {
             console.log('attempting fetch...')
+
+            // http://localhost:5000/api/users/profile for local server
             const response = await fetch("http://localhost:5000/api/users/profile", {
             method: "PUT",
                     headers: {
