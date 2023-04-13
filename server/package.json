@@ -5,8 +5,7 @@
 	"type": "module",
 	"main": "server.js",
 	"scripts": {
-		"start": "node index",
-		"dev": "nodemon index"
+		"start": "nodemon index"
 	},
 	"author": "",
 	"license": "ISC",
