@@ -93,7 +93,7 @@ const OrderScreen = () => {
 
                 // http://localhost:5000/api/orders/${order._id}/pay for local server
                 // https://amazon-clone-1zgp.onrender.com/api/orders/${order._id}/pay for remote server
-				const response = await fetch(`http://localhost:5000/api/orders/${order._id}/pay`, {
+				const response = await fetch(`https://amazon-clone-1zgp.onrender.com/api/orders/${order._id}/pay`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ const OrderScreen = () => {
 
                 // http://localhost:5000/api/orders/${orderId} for local server
                 // https://amazon-clone-1zgp.onrender.com/api/orders/${orderId} for remote server
-				const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+				const response = await fetch(`https://amazon-clone-1zgp.onrender.com/api/orders/${orderId}`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
@@ -202,7 +202,7 @@ const OrderScreen = () => {
 
                     // http://localhost:5000/api/keys/paypal for local server
                     // https://amazon-clone-1zgp.onrender.com/api/keys/paypal for remote server
-                    const response = await fetch('http://localhost:5000/api/keys/paypal', {
+                    const response = await fetch('https://amazon-clone-1zgp.onrender.com/api/keys/paypal', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',

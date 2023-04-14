@@ -28,7 +28,7 @@ const SignInScreen = () => {
 
             // http://localhost:5000/api/users/signin for local server
             // https://amazon-clone-1zgp.onrender.com/api/users/signin for remote server
-            const response = await fetch("http://localhost:5000/api/users/signin", {
+            const response = await fetch("https://amazon-clone-1zgp.onrender.com/api/users/signin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

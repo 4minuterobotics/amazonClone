@@ -40,7 +40,7 @@ const OrderHistoryScreen = () => {
 
                     // http://localhost:5000/api/orders/mine for local server
                     // https://amazon-clone-1zgp.onrender.com/api/orders/mine for remote server
-                    const response = await fetch(`http://localhost:5000/api/orders/mine`, {
+                    const response = await fetch(`https://amazon-clone-1zgp.onrender.com/api/orders/mine`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',

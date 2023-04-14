@@ -48,7 +48,7 @@ const App = () => {
 
 				// http://localhost:5000/api/products/categories for local server
 				// https://amazon-clone-1zgp.onrender.com/api/products/categories for remote server
-				const response = await fetch('http://localhost:5000/api/products/categories', {
+				const response = await fetch('https://amazon-clone-1zgp.onrender.com/api/products/categories', {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
