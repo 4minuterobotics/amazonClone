@@ -24,6 +24,7 @@ function Product(props) {
 			console.log("pressing Add to cart button")
 
 			// http://localhost:5000/api/products/${item._id} for local server
+			// https://amazon-clone-1zgp.onrender.com/api/products/${item._id} for remote server
 			const data = await fetch(`http://localhost:5000/api/products/${item._id}`, {
 				method: 'GET',
 				headers: {

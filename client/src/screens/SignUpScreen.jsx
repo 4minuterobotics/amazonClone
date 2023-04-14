@@ -31,6 +31,7 @@ const SignUpScreen = () => {
         try{
 
             // http://localhost:5000/api/users/signup for local server
+            // https://amazon-clone-1zgp.onrender.com/api/users/signup for remote server
             const response = await fetch("http://localhost:5000/api/users/signup", {
                 method: "POST",
                 headers: {

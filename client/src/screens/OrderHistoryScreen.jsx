@@ -39,6 +39,7 @@ const OrderHistoryScreen = () => {
                     console.log("inside of order history try")
 
                     // http://localhost:5000/api/orders/mine for local server
+                    // https://amazon-clone-1zgp.onrender.com/api/orders/mine for remote server
                     const response = await fetch(`http://localhost:5000/api/orders/mine`, {
                         method: 'GET',
                         headers: {

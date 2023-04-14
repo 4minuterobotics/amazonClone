@@ -63,6 +63,7 @@ const ProductScreen = () => {
 				console.log("inside of try")
 
 				// http://localhost:5000/api/products/slug/${slug} for local server
+				// https://amazon-clone-1zgp.onrender.com/api/products/slug/${slug} for remote server
 				const response = await fetch(`http://localhost:5000/api/products/slug/${slug}`, {
 					method: 'GET',
 					headers: {
@@ -133,6 +134,7 @@ const addToCartHandler = async () => {
 	try {
 
 		// http://localhost:5000/api/products/${product._id} for local server
+		// https://amazon-clone-1zgp.onrender.com/api/products/${product._id} for remote server
 		const data = await fetch(`http://localhost:5000/api/products/${product._id}`, {
 			method: 'GET',
 			headers: {

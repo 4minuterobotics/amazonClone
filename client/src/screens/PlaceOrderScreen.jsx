@@ -45,6 +45,7 @@ const PlaceOrderScreen = () => {
             dispatch({type: 'CREATE_REQUEST'})
 
             // http://localhost:5000/api/orders for local server
+            // https://amazon-clone-1zgp.onrender.com/api/orders for remote server
             const response = await fetch("http://localhost:5000/api/orders", {
             method: "POST",
                     headers: {

@@ -42,6 +42,7 @@ const ProfileScreen = () => {
             console.log('attempting fetch...')
 
             // http://localhost:5000/api/users/profile for local server
+            // https://amazon-clone-1zgp.onrender.com/api/users/profile for remote server
             const response = await fetch("http://localhost:5000/api/users/profile", {
             method: "PUT",
                     headers: {
