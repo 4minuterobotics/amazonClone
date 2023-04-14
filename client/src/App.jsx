@@ -44,7 +44,7 @@ const App = () => {
 			// const { data } = await axios.get(`/api/products/categories`);
 			// setCategories(data);
 
-			console.log("fetching categories")
+			console.log("fetching categories") 
 
 				// http://localhost:5000/api/products/categories for local server
 				// https://amazon-clone-1zgp.onrender.com/api/products/categories for remote server
