@@ -38,7 +38,7 @@ const OrderHistoryScreen = () => {
                 try {
                     console.log("inside of order history try")
 
-                    //http://localhost:5000 for local server
+                    // http://localhost:5000/api/orders/mine for local server
                     const response = await fetch(`http://localhost:5000/api/orders/mine`, {
                         method: 'GET',
                         headers: {
