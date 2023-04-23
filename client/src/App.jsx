@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify'
+import logo from './assets/logo.png'
 import 'react-toastify/dist/ReactToastify.css'
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -22,6 +23,7 @@ import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './components/ProfileScreen';
 import SearchBox from './components/SearchBox';
+
 
 const App = () => {
 	const {state, dispatch: ctxDispatch} = useContext(Store);	
@@ -91,7 +93,16 @@ const App = () => {
                 			<i className="fas fa-bars"></i>
               			</Button>
 							<LinkContainer to='/'>
-								<Navbar.Brand>Foo Amazon Clone</Navbar.Brand>
+								<Navbar.Brand>
+									<img
+									alt=""
+									src={logo}
+									width="30"
+									height="30"
+									className="d-inline-block align-top"
+									/>
+									{' '}Shop at Will's
+								</Navbar.Brand>
 							</LinkContainer>
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
 							<Navbar.Collapse id="basic-navbar-nav">
