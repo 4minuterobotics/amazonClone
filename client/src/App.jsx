@@ -3,8 +3,6 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify'
 import logo from './assets/logo.png'
 import 'react-toastify/dist/ReactToastify.css'
-import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -13,18 +11,36 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Store } from './Store';
-import CartScreen from './screens/CartScreen';
-import SignInScreen from './screens/SignInScreen';
-import ShippingAddressScreen from './screens/ShippingAddressScreen';
-import SignUpScreen from './screens/SignUpScreen';
-import PaymentMethodScreen from './screens/PaymentMethodScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import OrderScreen from './screens/OrderScreen';
-import OrderHistoryScreen from './screens/OrderHistoryScreen';
-import ProfileScreen from './components/ProfileScreen';
+import PageLoadingScreen from './components/PageLoadingScreen';
 import SearchBox from './components/SearchBox';
-import SearchScreen from './screens/SearchScreen';
 
+//Imports for non lazy loading screens
+// import HomeScreen from './screens/HomeScreen';
+// import ProductScreen from './screens/ProductScreen';
+// import CartScreen from './screens/CartScreen';
+// import SignInScreen from './screens/SignInScreen';
+// import ShippingAddressScreen from './screens/ShippingAddressScreen';
+// import SignUpScreen from './screens/SignUpScreen';
+// import PaymentMethodScreen from './screens/PaymentMethodScreen';
+// import PlaceOrderScreen from './screens/PlaceOrderScreen';
+// import OrderScreen from './screens/OrderScreen';
+// import OrderHistoryScreen from './screens/OrderHistoryScreen';
+// import ProfileScreen from './components/ProfileScreen';
+// import SearchScreen from './screens/SearchScreen';
+
+//Imports for lazy loading screens
+const LazyHomeScreen = React.lazy(()=> import ('./screens/HomeScreen'))
+const LazyProductScreen = React.lazy(()=> import ('./screens/ProductScreen'))
+const LazyCartScreen = React.lazy(()=> import ('./screens/CartScreen'))
+const LazySignInScreen = React.lazy(()=> import ('./screens/SignInScreen'))
+const LazyShippingAddressScreen = React.lazy(()=> import ('./screens/ShippingAddressScreen'))
+const LazySignUpScreen = React.lazy(()=> import ('./screens/SignUpScreen'))
+const LazyPaymentMethodScreen = React.lazy(()=> import ('./screens/PaymentMethodScreen'))
+const LazyPlaceOrderScreen = React.lazy(()=> import ('./screens/PlaceOrderScreen'))
+const LazyOrderScreen = React.lazy(()=> import ('./screens/OrderScreen'))
+const LazyOrderHistoryScreen = React.lazy(()=> import ('./screens/OrderHistoryScreen'))
+// const LazyProfileScreen = React.lazy(()=> import ('./screens/ProfileScreen'))
+const LazySearchScreen = React.lazy(()=> import ('./screens/SearchScreen'))
 
 const App = () => {
 	const {state, dispatch: ctxDispatch} = useContext(Store);	
@@ -171,7 +187,23 @@ const App = () => {
 				</div>
 				<main>
 					<Container className = "mt-3">
-						<Routes>
+						<Routes key={location.pathname} location={location}>
+
+							<Route path="/product/:slug" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyProductScreen/> </React.Suspense>} />
+							<Route path="/cart" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyCartScreen/> </React.Suspense>} />
+							<Route path="/search" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazySearchScreen/> </React.Suspense>} />
+							<Route path="/signin" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazySignInScreen/> </React.Suspense>} />
+							<Route path="/signup" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazySignUpScreen/> </React.Suspense>} />
+							{/* <Route path="/profile" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyProfileScreen/> </React.Suspense>} /> */}
+							<Route path="/shipping" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyShippingAddressScreen/> </React.Suspense>} />
+							<Route path="/payment" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyPaymentMethodScreen/> </React.Suspense>} />
+							<Route path="/placeorder" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyPlaceOrderScreen/> </React.Suspense>} />
+							<Route path="/order/:id" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyOrderScreen/> </React.Suspense>} />
+							<Route path="/orderhistory" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyOrderHistoryScreen/> </React.Suspense>} />
+							<Route path="/" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyHomeScreen/> </React.Suspense>} />
+							
+							{/* non lazy loading Routing method */}
+							{/* 
 							<Route path='/product/:slug' element={<ProductScreen />} />
 							<Route path='/cart' element={<CartScreen />} />
 							<Route path='/search' element={<SearchScreen />} />
@@ -183,7 +215,7 @@ const App = () => {
 							<Route path='/placeorder' element={<PlaceOrderScreen />} />
 							<Route path='/order/:id' element={<OrderScreen />} />
 							<Route path='/orderhistory' element={<OrderHistoryScreen />} />
-							<Route path='/' element={<HomeScreen />} />
+							<Route path='/' element={<HomeScreen />} /> */}
 						</Routes>
 					</Container>
 				</main>

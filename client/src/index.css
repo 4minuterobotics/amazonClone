@@ -72,8 +72,27 @@ main {
 
 .text-bold {
 	font-weight: bold;
-  }
-  
+}
+
+.loading-screen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('./assets/logo.png');
+    height: 300px;
+    width: 370px;
+    margin-top: 100px;
+    margin-left:auto;
+    margin-right: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+
+    color: black;
+    z-index: 99999999 important!;
+    /* margin-bottom: auto; */
+}
 /* sidebar */
 .navbar-brand {
 	font-weight: bold;
