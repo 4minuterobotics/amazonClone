@@ -12,8 +12,12 @@ const SignInScreen = () => {
     console.log('signin screen starts here')
 
     const navigate=useNavigate();
-    const {search} = useLocation();
-    const redirectInUrl = new URLSearchParams(search).get('redirect')
+    const {search} = useLocation();//sets a variable named "search"equal to the search key and value parameters in the long object contaning url info
+
+    //this breaks down the key and values of search paramaters in a URL, then sets the variable "redirectInUrl" equal to the value of the "redirect" key inside the search parameters
+    const redirectInUrl = new URLSearchParams(search).get('redirect') 
+
+    //if such a key named 'redirect' exists in the search paramaters, set a new vaiable named 'redirect' equal to that value, otherwise, set 'redirect' to /
     const redirect = redirectInUrl ? redirectInUrl : '/'
 
     const [email, setEmail] = useState('');

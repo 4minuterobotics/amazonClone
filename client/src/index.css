@@ -70,6 +70,10 @@ main {
 	color: #f08000;
 }
 
+.text-bold {
+	font-weight: bold;
+  }
+  
 /* sidebar */
 .navbar-brand {
 	font-weight: bold;
@@ -91,4 +95,7 @@ main {
   }
   .active-nav {
 	left: 0;
+  }
+  .text-bold {
+	font-weight: bold;
   }

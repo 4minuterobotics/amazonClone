@@ -81,7 +81,7 @@ function Product(props) {
 				
 			</Card.Body>
 
-			{console.log('rendering home page')}
+			{console.log(product.slug)}
 		</Card>
 	);
 }

@@ -23,6 +23,7 @@ import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './components/ProfileScreen';
 import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
 		localStorage.removeItem('userInfo')
 		localStorage.removeItem('shippingAddress')
 		localStorage.removeItem('paymentMethod')
+		localStorage.removeItem('cartItems')
 		window.location.href = '/signin';
 	}
 
@@ -158,7 +160,7 @@ const App = () => {
 						{categories.map((category) => (
 						<Nav.Item key={category}>
 							<LinkContainer
-							to={`/search/category=${category}`}
+							to={{pathname: '/search', search: `category=${category}`}}
 							onClick={() => setSidebarIsOpen(false)}
 							>
 							<Nav.Link>{category}</Nav.Link>
@@ -172,6 +174,7 @@ const App = () => {
 						<Routes>
 							<Route path='/product/:slug' element={<ProductScreen />} />
 							<Route path='/cart' element={<CartScreen />} />
+							<Route path='/search' element={<SearchScreen />} />
 							<Route path='/signin' element={<SignInScreen />} />
 							<Route path='/signup' element={<SignUpScreen />} />
 							<Route path='/profile' element={<ProfileScreen />} />
