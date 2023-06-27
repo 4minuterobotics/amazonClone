@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
+import PageAnimation from '../components/PageAnimation'
 import { Store } from '../Store'
 
 const reducer = (state, action) => { 
@@ -81,6 +82,7 @@ const OrderHistoryScreen = () => {
         <Helmet>
             <title>Order History</title>
         </Helmet>
+        <PageAnimation>
         <h1>Order History</h1>
         {loading ? (
             <LoadingBox></LoadingBox>
@@ -120,7 +122,8 @@ const OrderHistoryScreen = () => {
                     ))}
                 </tbody>
             </table>
-        )}
+        )} 
+        </PageAnimation>
     </div>
   )
 }

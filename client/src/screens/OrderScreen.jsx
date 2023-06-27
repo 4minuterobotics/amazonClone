@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
+import PageAnimation from '../components/PageAnimation';
 import { Store } from '../Store';
 import {toast} from 'react-toastify'
 
@@ -255,6 +256,7 @@ const OrderScreen = () => {
         <MessageBox variant = "danger">{error}</MessageBox>
     ) : (
         <div>
+        <PageAnimation>
             <Helmet>
                 <title>Order {orderId} </title>
             </Helmet>
@@ -370,6 +372,7 @@ const OrderScreen = () => {
                     </Card>
                 </Col>
             </Row>
+        </PageAnimation>
         </div>
     )
   );

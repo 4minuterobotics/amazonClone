@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from '../components/Product';
+import PageAnimation from '../components/PageAnimation';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -74,6 +75,7 @@ const HomeScreen = () => {
 		<Helmet>
 			<title>Shop at Will's</title>
 		</Helmet>
+		<PageAnimation>
 			<h1>Featured Products</h1>
 			<div className='products'>
 				{loading ? (
@@ -93,6 +95,7 @@ const HomeScreen = () => {
 					</Row>
 				)}
 			</div>
+		</PageAnimation>
 		</div>
 	);
 };

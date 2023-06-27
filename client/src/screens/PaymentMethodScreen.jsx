@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import CheckoutSteps from '../components/CheckoutSteps'
+import PageAnimation from '../components/PageAnimation'
 import { Store } from '../Store'
 
 const PaymentMethodScreen = () => {
@@ -36,7 +37,8 @@ const PaymentMethodScreen = () => {
     return (
     <div>
         <CheckoutSteps step1 step2 step3></CheckoutSteps>
-        <div className="container small-container">
+        <PageAnimation>
+                    <div className="container small-container">
             <Helmet>
                 <title>Payment Method</title>
             </Helmet>
@@ -67,6 +69,7 @@ const PaymentMethodScreen = () => {
                 </div>
             </Form>
         </div>
+    </PageAnimation>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
+import PageAnimation from '../components/PageAnimation';
 
 const ShippingAddressScreen = () => {
 
@@ -61,6 +62,7 @@ const ShippingAddressScreen = () => {
         <Helmet>
           <title>Shipping Address</title>
         </Helmet>
+        <PageAnimation>
         <CheckoutSteps step1 step2></CheckoutSteps>
         <div className="container small-container">
         <h1 className="my-3">Shipping Address</h1>
@@ -112,7 +114,7 @@ const ShippingAddressScreen = () => {
           </div>
         </Form>
         </div>
-       
+        </PageAnimation>      
     </div>
   )
 }

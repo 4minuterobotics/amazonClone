@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../Store';
+import PageAnimation from '../components/PageAnimation'
 import { toast } from 'react-toastify';
 
 
@@ -76,33 +77,35 @@ const SignUpScreen = () => {
 
   return (
    <Container className = "small-container">
-        <Helmet>
-            <title>Sign Up</title></Helmet>
-        <h1 className="my-3">Sign Up</h1>
-        <Form onSubmit={submitHandler}>
-            <Form.Group className="mb-3" controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control              required     onChange={(e) => setName(e.target.value)}/>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" required     onChange={(e) => setEmail(e.target.value)}/>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" required  onChange={(e) => setPassword(e.target.value)}/>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="confirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control type="password" required  onChange={(e) => setConfirmPassword(e.target.value)}/>
-            </Form.Group>
-            <div className="mb-3">
-                <Button type="submit">Sign Up</Button>
-            </div>
-            <div className="mb-3">Already have an account? {' '}
-            <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
-            </div>
-        </Form>
+        <Helmet><title>Sign Up</title></Helmet>
+        <PageAnimation>
+            <h1 className="my-3">Sign Up</h1>
+            <Form onSubmit={submitHandler}>
+                <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control              required     onChange={(e) => setName(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" required     onChange={(e) => setEmail(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" required  onChange={(e) => setPassword(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="confirmPassword">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type="password" required  onChange={(e) => setConfirmPassword(e.target.value)}/>
+                </Form.Group>
+                <div className="mb-3">
+                    <Button type="submit">Sign Up</Button>
+                </div>
+                <div className="mb-3">Already have an account? {' '}
+                <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+                </div>
+            </Form>
+        </PageAnimation>
+
    </Container>
   )
 }

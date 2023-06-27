@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import PageAnimation from '../components/PageAnimation'
 import { Store } from '../Store';
 
 //this reducer function moniters and changes the state/value for fetch requests
@@ -184,6 +185,7 @@ const addToCartHandler = async () => {
 		<MessageBox variant="danger">{error.message}</MessageBox>
 	) : (
 		<div>
+		<PageAnimation>
 			<Row>
 				<Col md={6}>
 					<img className='img-large' src={product.image} alt={product.name}/>
@@ -191,6 +193,7 @@ const addToCartHandler = async () => {
 				<Col md={3}><ListGroup variant="flush"> <ListGroup.Item> <Helmet><title>{product.name}</title></Helmet><h1>{product.name}</h1> </ListGroup.Item><ListGroup.Item><Rating rating={product.rating} numReviews={product.numReviews}></Rating></ListGroup.Item><ListGroup.Item>Price: ${product.price}</ListGroup.Item><ListGroup.Item>Description: <p>{product.description}</p></ListGroup.Item></ListGroup></Col>
 				<Col md={3}><Card><Card.Body><ListGroup variant="flush"><ListGroup.Item><Row><Col> Price: </Col><Col>${product.price}</Col></Row></ListGroup.Item><ListGroup.Item><Row><Col>Status: </Col><Col>{product.countInStock>0?<Badge bg="success">In Stock</Badge>:<Badge bg="danger">Danger</Badge>}</Col></Row></ListGroup.Item> {product.countInStock>0 && (<ListGroup.Item><div className="d-grid"><Button onClick={addToCartHandler} variant="primary">Add to Cart</Button></div></ListGroup.Item>)}</ListGroup></Card.Body></Card></Col>  
 			</Row>
+		</PageAnimation>
 		</div>
 	);  
 };
