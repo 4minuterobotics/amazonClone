@@ -1,8 +1,8 @@
 //this file will hold an object to return products
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
 const data = {
-	users:[
+	users: [
 		{
 			name: 'Will',
 			email: 'admin@example.com',
@@ -17,12 +17,12 @@ const data = {
 		},
 	],
 
-	products: [   
+	products: [
 		{
 			//_id: '1',
 			name: 'Nike Slim Shirt',
 			slug: 'nike-slim-shirt',
-			image: '/images/p1.jpeg', //all images are 679px x 829px
+			image: '/images/p1.webp', //all images are 679px x 829px
 			brand: 'Nike',
 			category: 'Shirts',
 			description: 'high quality shirt',
@@ -35,7 +35,7 @@ const data = {
 			//_id: '2',
 			name: 'Addidas Fit Shirt',
 			slug: 'addidas-fit-shirt',
-			image: '/images/p2.jpeg',
+			image: '/images/p2.webp',
 			brand: 'Addidas',
 			category: 'Shirts',
 			description: 'high quality product',
@@ -44,11 +44,11 @@ const data = {
 			rating: 3.5,
 			numReviews: 9,
 		},
-		{	
+		{
 			//_id: '3',
 			name: 'Nike Slim Pants',
 			slug: 'nike-slim-pants',
-			image: '/images/p3.jpeg',
+			image: '/images/p3.webp',
 			brand: 'Nike',
 			category: 'Pants',
 			description: 'high quality product',
@@ -57,11 +57,11 @@ const data = {
 			rating: 4.8,
 			numReviews: 15,
 		},
-		{	
+		{
 			//_id: '4',
 			name: 'Addidas Fit Pants',
 			slug: 'addidas-fit-pants',
-			image: '/images/p4.jpeg',
+			image: '/images/p4.webp',
 			brand: 'Addidas',
 			category: 'Pants',
 			description: 'high quality pants',

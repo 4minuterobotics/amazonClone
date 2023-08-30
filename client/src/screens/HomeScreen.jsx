@@ -24,7 +24,7 @@ const reducer = (state, action) => {
 };
 
 const HomeScreen = () => {
-	const [{ loading, error, products }, dispatch] = useReducer (reducer, {
+	const [{ loading, error, products }, dispatch] = useReducer(reducer, {
 		loading: true,
 		error: '',
 		products: [],
@@ -39,16 +39,19 @@ const HomeScreen = () => {
 			dispatch({ type: 'FETCH_REQUEST' });
 			console.log('dispatched first useReducer action');
 			try {
-				console.log("fetching shit for home page")
+				console.log('fetching shit for home page');
 
 				// http://localhost:5000/api/products for local server
 				// https://amazon-clone-1zgp.onrender.com/api/products for remote server
-				const response = await fetch('https://amazon-clone-1zgp.onrender.com/api/products', {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				});
+				const response = await fetch(
+					'https://amazon-clone-1zgp.onrender.com/api/products',
+					{
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					}
+				);
 
 				//if there's a response back....
 				if (response.ok) {
@@ -72,30 +75,36 @@ const HomeScreen = () => {
 
 	return (
 		<div>
-		<Helmet>
-			<title>Shop at Will's</title>
-		</Helmet>
-		<PageAnimation>
-			<h1>Featured Products</h1>
-			<div className='products'>
-				{loading ? (
-					<LoadingBox/>
-				) : error ? (
-					<MessageBox variant="danger">{error}</MessageBox>
-				) : (
-					<Row>
-						{/* Row is a styled bootstrap component that puts things next to each other. 
+			<Helmet>
+				<title>Shop at Will's</title>
+			</Helmet>
+			<PageAnimation>
+				<h1>Featured Products</h1>
+				<div className="products">
+					{loading ? (
+						<LoadingBox />
+					) : error ? (
+						<MessageBox variant="danger">{error}</MessageBox>
+					) : (
+						<Row>
+							{/* Row is a styled bootstrap component that puts things next to each other. 
 						Col determines how many columns show up on differenc screen sizes. In this case,
 						column size will be 6/12th on small sceens and 3/12th on large screens. */}
-						{products.map((product) => (
-							<Col key={product.slug} sm={6} md={4} lg={3} className='mb-3'>
-								<Product product={product} />
-							</Col>
-						))}
-					</Row>
-				)}
-			</div>
-		</PageAnimation>
+							{products.map((product) => (
+								<Col
+									key={product.slug}
+									sm={6}
+									md={4}
+									lg={3}
+									className="mb-3"
+								>
+									<Product product={product} />
+								</Col>
+							))}
+						</Row>
+					)}
+				</div>
+			</PageAnimation>
 		</div>
 	);
 };

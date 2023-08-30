@@ -8,8 +8,12 @@ const userRouter = express.Router()
 
 //by using this async function we can catch the error in the async function inside it
 userRouter.post('/signin',expressAsyncHandler(async(req,res) =>{
+    console.log(req.body.email)
+    console.log(req.body.password)
     const user = await User.findOne({email: req.body.email});
-    if(user){
+    if(user)
+    console.log('user exists')
+    {
         if(bcrypt.compareSync(req.body.password, user.password)){
             console.log('login data passed to backend successully')
             res.send({
@@ -56,7 +60,8 @@ userRouter.put(
     '/profile',
     isAuth,
     expressAsyncHandler(async (req, res) => {
-         console.log("entered user profile put request in backend")
+        console.log("entered user profile put request in backend")
+        console.log(req.body.name)
         const user = await User.findById(req.user._id);
 
         // const usersTest = await User.find();

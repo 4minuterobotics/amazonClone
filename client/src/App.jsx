@@ -39,7 +39,7 @@ const LazyPaymentMethodScreen = React.lazy(()=> import ('./screens/PaymentMethod
 const LazyPlaceOrderScreen = React.lazy(()=> import ('./screens/PlaceOrderScreen'))
 const LazyOrderScreen = React.lazy(()=> import ('./screens/OrderScreen'))
 const LazyOrderHistoryScreen = React.lazy(()=> import ('./screens/OrderHistoryScreen'))
-// const LazyProfileScreen = React.lazy(()=> import ('./screens/ProfileScreen'))
+const LazyProfileScreen = React.lazy(()=> import ('./screens/ProfileScreen'))
 const LazySearchScreen = React.lazy(()=> import ('./screens/SearchScreen'))
 
 const App = () => {
@@ -194,7 +194,7 @@ const App = () => {
 							<Route path="/search" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazySearchScreen/> </React.Suspense>} />
 							<Route path="/signin" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazySignInScreen/> </React.Suspense>} />
 							<Route path="/signup" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazySignUpScreen/> </React.Suspense>} />
-							{/* <Route path="/profile" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyProfileScreen/> </React.Suspense>} /> */}
+							<Route path="/profile" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyProfileScreen/> </React.Suspense>} />
 							<Route path="/shipping" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyShippingAddressScreen/> </React.Suspense>} />
 							<Route path="/payment" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyPaymentMethodScreen/> </React.Suspense>} />
 							<Route path="/placeorder" element={<React.Suspense fallback= {<PageLoadingScreen/>} > <LazyPlaceOrderScreen/> </React.Suspense>} />

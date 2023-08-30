@@ -1,12 +1,11 @@
 {
 	"name": "server",
 	"version": "1.0.0",
-	"description": "",
 	"type": "module",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server",
-		"dev": "nodemon"
+		"dev": "nodemon",
+		"start": "node server"
 	},
 	"author": "",
 	"license": "ISC",
@@ -21,5 +20,7 @@
 		"express-async-handler": "^1.2.0",
 		"jsonwebtoken": "^9.0.0",
 		"mongoose": "^7.0.0"
-	}
+	},
+	"keywords": [],
+	"description": ""
 }
