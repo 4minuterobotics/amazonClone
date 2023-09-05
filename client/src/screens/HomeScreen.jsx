@@ -44,7 +44,7 @@ const HomeScreen = () => {
 				// http://localhost:5000/api/products for local server
 				// https://amazon-clone-1zgp.onrender.com/api/products for remote server
 				const response = await fetch(
-					'https://amazon-clone-1zgp.onrender.com/api/products',
+					`${import.meta.env.VITE_APP_CURRENT_SERVER}/api/products`,
 					{
 						method: 'GET',
 						headers: {
